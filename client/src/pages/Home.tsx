@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowDownLeft,
   ArrowUpRight,
@@ -70,11 +70,12 @@ function Logo() {
   );
 }
 
-function TopBar({ mode, onMode, onToast }: { mode: Mode; onMode: (mode: Mode) => void; onToast: (toast: NonNullable<Toast>) => void }) {
+function TopBar({ mode, onMode, onToast, menuOpen, onMenu }: { mode: Mode; onMode: (mode: Mode) => void; onToast: (toast: NonNullable<Toast>) => void; menuOpen: boolean; onMenu: () => void }) {
   const [open, setOpen] = useState(false);
   return (
     <header className="topbar">
       <div className="topbar-inner">
+        <button className="sidebar-toggle" onClick={onMenu} aria-label={menuOpen ? "Recolher menu lateral" : "Abrir menu lateral"} aria-expanded={menuOpen}><Menu size={18} /><span>Menu</span></button>
         <Logo />
         <div className="topbar-actions">
           <button className="connection-pill" onClick={() => onToast({ title: "Modo offline ativo", detail: "Registros serão sincronizados ao reconectar." })}>
@@ -166,8 +167,23 @@ export default function Home() {
   const [depTab, setDepTab] = useState<DepTab>("dashboard");
   const [collectorTab, setCollectorTab] = useState<CollectorTab>("registro");
   const [toast, setToast] = useState<Toast>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(() => typeof window === "undefined" ? true : window.innerWidth > 720);
+  const [isSwitching, setIsSwitching] = useState(false);
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 720px)");
+    const syncMenu = () => setMenuOpen(!media.matches);
+    syncMenu();
+    media.addEventListener("change", syncMenu);
+    return () => media.removeEventListener("change", syncMenu);
+  }, []);
   const notify = (next: NonNullable<Toast>) => { setToast(next); window.setTimeout(() => setToast(null), 3500); };
+  const switchMode = (next: Mode) => {
+    if (next === mode) return;
+    setIsSwitching(true);
+    setMode(next);
+    setMenuOpen(window.innerWidth > 720);
+    window.setTimeout(() => setIsSwitching(false), 260);
+  };
   const page = useMemo(() => mode === "depositador" ? (depTab === "dashboard" ? <DepositadorDashboard onToast={notify} /> : <Profile onToast={notify} />) : (collectorTab === "registro" ? <CollectorRegister onToast={notify} /> : collectorTab === "historico" ? <CollectorHistory onToast={notify} /> : <CollectorProfile onToast={notify} />), [mode, depTab, collectorTab]);
-  return <div className={`app-shell ${mode}`}><TopBar mode={mode} onMode={(next) => { setMode(next); setMobileOpen(false); }} onToast={notify} /><button className="mobile-menu-button icon-button" onClick={() => setMobileOpen(!mobileOpen)}><Menu size={20} /></button><div className={`app-layout ${mobileOpen ? "mobile-nav-open" : ""}`}><SideRail mode={mode} depTab={depTab} setDepTab={(tab) => { setDepTab(tab); setMobileOpen(false); }} collectorTab={collectorTab} setCollectorTab={(tab) => { setCollectorTab(tab); setMobileOpen(false); }} onToast={notify} /><main className="main-content">{page}</main></div>{toast && <div className="toast"><div className="toast-check"><Check size={15} /></div><div><strong>{toast.title}</strong><span>{toast.detail}</span></div><button onClick={() => setToast(null)}><X size={15} /></button></div>}</div>;
+  return <div className={`app-shell ${mode}`}><TopBar mode={mode} onMode={switchMode} onToast={notify} menuOpen={menuOpen} onMenu={() => setMenuOpen(!menuOpen)} /><div className={`app-layout ${menuOpen ? "menu-open" : "menu-closed"}`}><SideRail mode={mode} depTab={depTab} setDepTab={(tab) => { setDepTab(tab); setMenuOpen(window.innerWidth > 720); }} collectorTab={collectorTab} setCollectorTab={(tab) => { setCollectorTab(tab); setMenuOpen(window.innerWidth > 720); }} onToast={notify} /><main className={`main-content ${isSwitching ? "is-switching" : ""}`}>{page}</main></div>{toast && <div className="toast"><div className="toast-check"><Check size={15} /></div><div><strong>{toast.title}</strong><span>{toast.detail}</span></div><button onClick={() => setToast(null)}><X size={15} /></button></div>}</div>;
 }
