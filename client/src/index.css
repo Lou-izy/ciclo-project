@@ -145,3 +145,6 @@ html, body, #root { width: 100%; max-width: 100%; overflow-x: hidden; }
   .status-track .stage-icon { width: 22px; height: 22px; }
   .status-track .stage-connector { margin-left: -2px; }
 }
+
+.request-label { cursor: pointer; transition: background .18s ease, border-color .18s ease, transform .18s ease; }.request-label:hover { background: #d9d9d7; border-color: #bdbdb9; }.request-label:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+@media (max-width: 720px) { .request-label { max-width: 100%; white-space: normal; text-align: left; } }
