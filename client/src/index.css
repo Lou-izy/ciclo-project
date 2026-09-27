@@ -89,21 +89,3 @@
   .guide-actions { grid-template-columns:1fr; }
   .bin-layout { margin-top:14px; }
 }
-
-/* Ajustes visuais revisados do editor visual */
-.brand-mark { background: #637469; }
-.side-rail { background: #cfe9d9; }
-.side-rail .rail-context, .side-rail .rail-bottom { background: transparent; }
-.token-card { background: #613d60; color: #fff; }
-.token-card .eyebrow.light, .token-card .token-footer, .token-card .token-caption { color: #fff; }
-.token-card .token-footer { border-color: rgba(255,255,255,.35); }
-.token-ledger { background: #000; color: #fff; }
-.token-ledger h2, .token-ledger .eyebrow, .token-ledger .movement strong, .token-ledger .movement span, .token-ledger .full-width-button { color: #fff; }
-.token-ledger .ledger-highlight { background: #fff8f0; color: #171717; }
-.token-ledger .ledger-highlight span, .token-ledger .ledger-highlight em { color: #625b57; }
-.materials-card { background: #f08ebe; }
-.materials-card .bar-fill.mint { background: #0f08be; }
-.materials-card .bar-fill.peach { background: #f08ebe; }
-.materials-card .bar-fill.lilac { background: #bdaee3; }
-.bin-info-trigger, .bin-material { background: #fff; }
-.bin-material.is-selected { background: #f0a8be; }

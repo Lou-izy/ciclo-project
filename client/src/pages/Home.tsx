@@ -75,7 +75,7 @@ function StatusTrack() {
 }
 
 function TokenCard() {
-  return <section className="token-card"><div className="card-topline"><span className="eyebrow light">CARTEIRA DE TOKENS</span><WalletCards size={19} /></div><div className="token-value">2.480 <span>tk</span></div><div className="token-footer"><span>+ 402 tokens este mês</span><span className="token-caption">1 token = impacto positivo registrado</span></div></section>;
+  return <section className="token-card"><div className="card-topline"><span className="eyebrow light">CARTEIRA DE TOKENS</span><WalletCards size={19} /></div><div className="token-value">2.480 <span>tk</span></div><div className="token-footer"><span>+ 402 tokens este mês</span><span className="token-caption">1 token = impacto registrado</span></div></section>;
 }
 
 function InstructionsCard() {
@@ -85,7 +85,7 @@ function InstructionsCard() {
 }
 
 function MaterialsChart() {
-  return <section className="white-card materials-card"><div className="section-heading"><div><span className="eyebrow">IMPACTO ACUMULADO</span><h2>Materiais coletados</h2></div><BarChart3 size={19} /></div><p className="card-description">Peso verificado por tipo de material.</p><div className="bar-chart">{materialBars.map((bar) => <div className="bar-row" key={bar.label}><div className="bar-label"><strong>{bar.label}</strong><span>{bar.name}</span></div><div className="bar-track"><div className={`bar-fill ${bar.className}`} /></div><b>{bar.value.toFixed(1).replace(".", ",")} kg</b></div>)}</div><div className="chart-total"><span>Total separado</span><strong>19,1 kg</strong></div></section>;
+  return <section className="white-card materials-card"><div className="section-heading"><div><span className="eyebrow">IMPACTO ACUMULADO</span><h2>Materiais coletados</h2></div><BarChart3 size={19} /></div><p className="card-description">Peso verificado por tipo de material.</p><div className="bar-chart">{materialBars.map((bar) => <div className="bar-row" key={bar.label}><div className="bar-label"><strong>{bar.label}</strong><span>{bar.name}</span></div><div className="bar-track"><div className={`bar-fill ${bar.className}`} style={{ width: `${bar.percent}%` }} /></div><b>{bar.value.toFixed(1).replace(".", ",")} kg</b></div>)}</div><div className="chart-total"><span>Total separado</span><strong>19,1 kg</strong></div></section>;
 }
 
 function LocationsCard({ onToast }: { onToast: (toast: NonNullable<Toast>) => void }) {
