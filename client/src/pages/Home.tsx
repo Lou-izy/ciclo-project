@@ -6,6 +6,7 @@ import {
   Bell,
   Check,
   ChevronRight,
+  ChevronDown,
   CircleAlert,
   CircleDashed,
   Clock3,
@@ -61,7 +62,7 @@ function TopBar({ depTab, setDepTab, onToast, onLogout }: { depTab: DepTab; setD
 }
 
 function SideRail({ depTab, setDepTab, onToast }: { depTab: DepTab; setDepTab: (tab: DepTab) => void; onToast: (toast: NonNullable<Toast>) => void }) {
-  return <aside className="side-rail"><div className="rail-context"><span className="eyebrow">APLICATIVO ATIVO</span><strong>Minha jornada</strong><span className="context-line">Acompanhe o impacto de cada entrega.</span></div><nav className="rail-nav"><button className={depTab === "dashboard" ? "active" : ""} onClick={() => setDepTab("dashboard")}><HomeIcon size={18} /><span>Visão geral</span><ChevronRight size={15} /></button><button className={depTab === "perfil" ? "active" : ""} onClick={() => setDepTab("perfil")}><UserRound size={18} /><span>Meu perfil</span><ChevronRight size={15} /></button></nav><div className="rail-bottom"><div className="help-box"><ShieldCheck size={19} /><div><strong>Rastreio protegido</strong><span>Seu identificador é único e invisível.</span></div></div><button className="rail-link" onClick={() => onToast({ title: "Central de ajuda", detail: "A equipe Ciclo responderá em breve." })}>Preciso de ajuda <ChevronRight size={15} /></button></div></aside>;
+  return <aside className="side-rail"><div className="rail-context"><span className="eyebrow">APLICATIVO ATIVO</span><strong>Minha jornada</strong><span className="context-line">Acompanhe o impacto de cada entrega.</span></div><nav className="rail-nav"><button className={depTab === "dashboard" ? "active" : ""} onClick={() => setDepTab("dashboard")}><HomeIcon size={18} /><span>Visão geral</span><ChevronRight size={15} /></button><button className={depTab === "perfil" ? "active" : ""} onClick={() => setDepTab("perfil")}><UserRound size={18} /><span>Meu perfil</span><ChevronRight size={15} /></button></nav><div className="rail-bottom"><div className="help-box"><ShieldCheck size={19} /><div><strong>Rastreio protegido</strong><span>Etiqueta visível · #04821</span></div></div><button className="rail-link" onClick={() => onToast({ title: "Central de ajuda", detail: "A equipe Ciclo responderá em breve." })}>Preciso de ajuda <ChevronRight size={15} /></button></div></aside>;
 }
 
 function PageHeader({ overline, title, description }: { overline: string; title: string; description: string }) {
@@ -74,12 +75,13 @@ function StatusTrack() {
 }
 
 function TokenCard() {
-  return <section className="token-card"><div className="card-topline"><span className="eyebrow light">TOKENS DISPONÍVEIS</span><WalletCards size={19} /></div><div className="token-value">2.480 <span>tk</span></div><div className="token-footer"><span>+ 402 tokens este mês</span><span className="token-caption">1 token = impacto registrado</span></div></section>;
+  return <section className="token-card"><div className="card-topline"><span className="eyebrow light">CARTEIRA DE TOKENS</span><WalletCards size={19} /></div><div className="token-value">2.480 <span>tk</span></div><div className="token-footer"><span>+ 402 tokens este mês</span><span className="token-caption">1 token = impacto registrado</span></div><div className="identifier-chip"><span>SEU IDENTIFICADOR</span><strong>#04821</strong><small>Use este número no papel fixado ao saco.</small></div></section>;
 }
 
 function InstructionsCard() {
-  const steps = [["01", "Separe", "Separe o lixo por material: MET, PET ou PLA."], ["02", "Ensacar", "Coloque os materiais separados em um saco de lixo."], ["03", "Identificar", "Escreva seu identificador no papel e cole com fita no saco."]];
-  return <section className="white-card instructions-card"><div className="section-heading"><div><span className="eyebrow">COMO PARTICIPAR</span><h2>Três passos simples</h2></div><span className="soft-badge">guia rápido</span></div><div className="instruction-list">{steps.map(([number, title, detail]) => <div className="instruction" key={number}><span className="instruction-number">{number}</span><div><strong>{title}</strong><p>{detail}</p></div></div>)}</div><div className="identifier-note"><LockKeyhole size={16} /><span>Seu identificador é único. O número usado no saco não fica exposto no aplicativo.</span></div></section>;
+  const [open, setOpen] = useState(false);
+  const steps = [["01", "Separe", "Separe o lixo por material: MET, PET ou PLA."], ["02", "Ensacar", "Coloque os materiais separados em um saco de lixo."], ["03", "Identificar", "Escreva #04821 no papel e cole com fita no saco."]];
+  return <section className={`white-card expandable-card ${open ? "is-open" : ""}`}><button className="expand-trigger" onClick={() => setOpen(!open)} aria-expanded={open}><span><span className="eyebrow">COMO PARTICIPAR</span><strong>Veja os três passos simples</strong></span><span className="expand-icon"><ChevronDown size={18} /></span></button>{open && <div className="expand-content"><div className="instruction-list">{steps.map(([number, title, detail]) => <div className="instruction" key={number}><span className="instruction-number">{number}</span><div><strong>{title}</strong><p>{detail}</p></div></div>)}</div><div className="identifier-note"><LockKeyhole size={16} /><span>Seu identificador <strong>#04821</strong> é fixo e deve acompanhar todas as entregas.</span></div></div>}</section>;
 }
 
 function MaterialsChart() {
@@ -87,7 +89,8 @@ function MaterialsChart() {
 }
 
 function LocationsCard({ onToast }: { onToast: (toast: NonNullable<Toast>) => void }) {
-  return <section className="white-card locations-card"><div className="section-heading"><div><span className="eyebrow">ONDE ENTREGAR</span><h2>Pontos de coleta</h2></div><button className="text-button" onClick={() => onToast({ title: "Lista atualizada", detail: "Mostrando os pontos mais próximos de você." })}>Atualizar <ChevronRight size={15} /></button></div><p className="card-description">Escolha o ponto mais conveniente para entregar seu saco identificado.</p><div className="location-list"><div className="location-item"><span className="location-index">01</span><div><strong>Praça das Artes</strong><span>Seg–sáb · 08:00–19:00</span></div><span className="open-pill">Aberto</span></div><div className="location-item"><span className="location-index">02</span><div><strong>Mercado Central</strong><span>Seg–dom · 07:00–21:00</span></div><span className="open-pill">Aberto</span></div></div><div className="holiday-alert"><CircleAlert size={15} /><span><strong>Feriado em 07/09:</strong> Praça das Artes fecha às 13h.</span></div></section>;
+  const [open, setOpen] = useState(false);
+  return <section className={`white-card expandable-card ${open ? "is-open" : ""}`}><button className="expand-trigger" onClick={() => setOpen(!open)} aria-expanded={open}><span><span className="eyebrow">ONDE ENTREGAR</span><strong>Veja os pontos de coleta</strong></span><span className="expand-icon"><ChevronDown size={18} /></span></button>{open && <div className="expand-content"><p className="card-description">Escolha o ponto mais conveniente para entregar seu saco identificado.</p><div className="location-list"><div className="location-item"><span className="location-index">01</span><div><strong>Praça das Artes</strong><span>Seg–sáb · 08:00–19:00</span></div><span className="open-pill">Aberto</span></div><div className="location-item"><span className="location-index">02</span><div><strong>Mercado Central</strong><span>Seg–dom · 07:00–21:00</span></div><span className="open-pill">Aberto</span></div></div><div className="holiday-alert"><CircleAlert size={15} /><span><strong>Feriado em 07/09:</strong> Praça das Artes fecha às 13h.</span></div><button className="text-button refresh-locations" onClick={() => onToast({ title: "Lista atualizada", detail: "Mostrando os pontos mais próximos de você." })}>Atualizar pontos <ChevronRight size={15} /></button></div>}</section>;
 }
 
 function TokenLedger({ onToast }: { onToast: (toast: NonNullable<Toast>) => void }) {
@@ -98,8 +101,13 @@ function HistoryCard() {
   return <section className="white-card history-card"><div className="section-heading"><div><span className="eyebrow">HISTÓRICO POR DATA</span><h2>Suas entregas</h2></div><span className="soft-badge">4 registros</span></div><div className="collection-list">{collections.map((item) => <div className="collection-item" key={item.date}><div className="date-block"><strong>{item.date.split(" ")[0]}</strong><span>{item.date.split(" ")[1]} {item.date.split(" ")[2]}</span></div><div className="collection-content"><strong>{item.material} <span>· {item.weight}</span></strong><span>{item.detail}</span></div><span className={`collection-status ${item.status === "Em análise" ? "review" : "verified-status"}`}>{item.status}</span></div>)}</div></section>;
 }
 
+function BinMaterials() {
+  const bins = [{ label: "MET", name: "Metal", className: "bin-metal" }, { label: "PET", name: "Plástico PET", className: "bin-pet" }, { label: "PLA", name: "Plástico PLA", className: "bin-pla" }];
+  return <section className="white-card bin-card"><div className="section-heading"><div><span className="eyebrow">SEPARAÇÃO CORRETA</span><h2>Uma lixeira para cada material</h2></div><span className="soft-badge">guia visual</span></div><p className="card-description">Mantenha os materiais separados para que cada coleta seja pesada corretamente.</p><div className="bin-layout"><div className="bin-image-wrap"><img src="/manus-storage/pasted_file_Go6Gd1_image_058fa20e.png" alt="Três lixeiras coloridas para separação de materiais" /></div><div className="bin-materials">{bins.map((bin) => <div className={`bin-material ${bin.className}`} key={bin.label}><span className="bin-swatch" /><div><strong>{bin.label}</strong><span>{bin.name}</span></div><ChevronRight size={15} /></div>)}</div></div></section>;
+}
+
 function Dashboard({ onToast }: { onToast: (toast: NonNullable<Toast>) => void }) {
-  return <><PageHeader overline="SEGUNDA-FEIRA · 07 SET 2026" title="Olá, Marina" description="Acompanhe o que você separou, o impacto gerado e seus tokens." /><div className="token-hero-grid"><TokenCard /><section className="white-card active-status-card"><div className="card-heading"><div><span className="eyebrow">ÚLTIMA ENTREGA</span><h2>Coleta em acompanhamento</h2></div><span className="status-badge dark">Em análise</span></div><p className="muted-copy">O peso está sendo validado pela equipe. Os tokens serão liberados após a conferência.</p><StatusTrack /></section></div><div className="dashboard-grid top-grid"><InstructionsCard /><MaterialsChart /></div><div className="dashboard-grid bottom-grid"><LocationsCard onToast={onToast} /><TokenLedger onToast={onToast} /></div><HistoryCard /></>;
+  return <><PageHeader overline="SEGUNDA-FEIRA · 07 SET 2026" title="Olá, Marina" description="Acompanhe o que você separou, o impacto gerado e seus tokens." /><div className="dashboard-stack"><div className="token-hero-grid"><TokenCard /><section className="white-card active-status-card"><div className="card-heading"><div><span className="eyebrow">ÚLTIMA ENTREGA</span><h2>Coleta em acompanhamento</h2></div><span className="status-badge dark">Em análise</span></div><p className="muted-copy">O peso está sendo validado pela equipe. Os tokens serão liberados após a conferência.</p><StatusTrack /></section></div><TokenLedger onToast={onToast} /><HistoryCard /><div className="dashboard-grid quick-guides"><InstructionsCard /><LocationsCard onToast={onToast} /></div><MaterialsChart /><BinMaterials /></div></>;
 }
 
 function Profile({ onToast }: { onToast: (toast: NonNullable<Toast>) => void }) {
