@@ -58,3 +58,34 @@
   .bin-image-wrap { min-height:150px; }
   .bin-image-wrap img { max-width:210px; }
 }
+
+/* Ajustes finais do dashboard: saudação, histórico embutido e guia detalhado */
+.greeting-title { display:inline-flex; flex-wrap:wrap; align-items:center; gap:12px; }
+.header-identifier { display:inline-flex; align-items:center; padding:8px 12px; border:1px solid #d6cde5; border-radius:999px; background:#f0ebfa; color:#655879; font:600 11px 'DM Mono'; letter-spacing:.01em; vertical-align:middle; }
+.token-card .identifier-chip { display:none; }
+.active-status-card .history-card { margin:22px -24px -23px; border-radius:0 0 var(--radius) var(--radius); border-left:0; border-right:0; border-bottom:0; box-shadow:none; }
+.history-cta { width:100%; display:flex; align-items:center; gap:7px; margin-top:22px; padding:12px 0 0; border-top:1px solid var(--line); background:transparent; color:var(--ink); font-size:11px; font-weight:600; text-align:left; }
+.history-cta svg:last-child { margin-left:auto; transition:transform .2s ease; }
+.history-chevron.open { transform:rotate(180deg); }
+.guide-actions { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:18px 0 22px; }
+.guide-actions .expandable-card { background:#fff; }
+.guide-actions .expand-trigger { min-height:76px; padding:15px 17px; }
+.guide-actions .expand-trigger strong { font-size:15px; }
+.bin-material { padding:0; display:block; overflow:hidden; }
+.bin-material.is-selected { background:#eee9f6; }
+.bin-info-trigger { width:100%; display:flex; align-items:center; gap:10px; padding:12px 13px; background:transparent; text-align:left; }
+.bin-info-trigger > span:nth-child(2) { display:grid; gap:3px; }
+.bin-info-trigger small { color:#777; font-size:10px; }
+.bin-info-trigger > svg { margin-left:auto; transition:transform .2s ease; }
+.bin-material.is-selected .bin-info-trigger > svg { transform:rotate(180deg); }
+.bin-detail { padding:0 13px 13px 35px; color:#666; font-size:10px; line-height:1.45; }
+.bin-detail p { margin:7px 0 0; }
+.bin-detail p strong { display:inline; font:600 10px 'Space Grotesk'; color:var(--ink); }
+.bin-material > .bin-swatch { display:none; }
+@media (max-width:760px) {
+  .greeting-title { display:flex; align-items:flex-start; gap:8px; }
+  .header-identifier { width:max-content; font-size:10px; padding:7px 10px; }
+  .active-status-card .history-card { margin:20px -17px -20px; }
+  .guide-actions { grid-template-columns:1fr; }
+  .bin-layout { margin-top:14px; }
+}
