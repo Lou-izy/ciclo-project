@@ -228,3 +228,25 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline:3px so
 @keyframes notification-pulse { 0%,100% { box-shadow:0 0 0 0 rgba(138,125,166,.15); } 50% { box-shadow:0 0 0 7px rgba(138,125,166,0); } }
 @media (prefers-reduced-motion: reduce) { .topbar-actions .icon-button[aria-label="Abrir notificações"], .floating-help-button { animation:none; } }
 @media (max-width:760px) { .highlight-modal.ledger-highlight-modal { width:calc(100vw - 24px); } .ledger-highlight-modal .ledger-highlight strong { font-size:34px; } }
+
+/* Interações finais: cabeçalho com feedback de toque e avisos expansíveis */
+.topbar .top-nav button, .topbar .topbar-actions > button, .topbar .avatar { transition: transform .16s ease, background .18s ease, box-shadow .18s ease; }
+.topbar .top-nav button:active, .topbar .topbar-actions > button:active, .topbar .avatar:active { transform:scale(.94); }
+.notification-trigger { width:100%; display:flex; align-items:center; gap:10px; padding:14px 0; background:transparent; border:0; text-align:left; color:var(--ink); }
+.notification-trigger-copy { display:flex; flex:1; min-width:0; flex-direction:column; gap:4px; }
+.notification-trigger-copy strong { font-size:13px; }
+.notification-trigger-copy small { color:var(--muted); font-size:10px; }
+.notification-chevron { flex:0 0 auto; transition:transform .2s ease; color:var(--muted); }
+.notification-chevron.open { transform:rotate(180deg); }
+.notification-history-item.is-expanded { background:#fbf9fd; }
+.notification-expanded-content { padding:0 14px 16px 27px; color:#514c57; font-size:11px; line-height:1.55; animation:fade-up .2s ease-out; }
+.notification-expanded-content > p { margin:0 0 12px; }
+.notification-detail-step { border-top:1px solid #e9e3ed; padding:13px 0 2px; }
+.notification-detail-step > b { color:#332d3f; font-size:12px; }
+.notification-detail-step p { margin:7px 0; }
+.material-detail { margin:10px 0; padding:10px 11px; border-left:2px solid #d8cde4; background:#fff; border-radius:7px; }
+.material-detail strong { color:#514267; }
+.material-detail p { margin:6px 0 0; }
+.notification-location-detail { margin-top:12px; padding:12px; border-radius:8px; background:#f2eee7; }
+.notification-location-detail p { margin:7px 0 0; }
+@media (prefers-reduced-motion: reduce) { .topbar .top-nav button, .topbar .topbar-actions > button, .topbar .avatar, .notification-chevron { transition:none; } }
