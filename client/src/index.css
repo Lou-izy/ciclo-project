@@ -211,3 +211,20 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline:3px so
   .download-pdf-button { width:100%; justify-content:center; }
   .floating-help-button { right:14px; bottom:14px; }
 }
+
+/* Refinamentos solicitados: Central de Avisos e extrato ampliado */
+.topbar-actions .icon-button[aria-label="Abrir notificações"] { position:relative; color:#514267; background:#f0ebfa; border-color:#d6cde5; animation:notification-pulse 2.8s ease-in-out infinite; }
+.topbar-actions .icon-button[aria-label="Abrir notificações"]::after { content:""; position:absolute; top:5px; right:5px; width:6px; height:6px; border-radius:50%; background:#d47f68; box-shadow:0 0 0 3px #f7ddd4; }
+.topbar-actions .icon-button[aria-label="Abrir notificações"]:hover { background:#dbd5f0; transform:translateY(-1px); }
+.drawer-subtitle { margin:8px 0 0; max-width:300px; color:#6d6762; font-size:11px; line-height:1.45; }
+.notification-history-item:first-child { border-left:3px solid #8a7da6; }
+.notification-history-item:nth-child(2) { border-left:3px solid #79ae90; }
+.floating-help-button { background:#332d3f; border-color:#332d3f; color:#fff; animation:notification-pulse 2.8s ease-in-out infinite, fade-up .25s ease-out; }
+.floating-help-button:hover { background:#514267; }
+.highlight-modal.ledger-highlight-modal { width:min(980px, calc(100vw - 34px)); max-height:min(88vh, 820px); }
+.ledger-highlight-modal .ledger-highlight { padding:22px 20px; }
+.ledger-highlight-modal .ledger-highlight strong { font-size:42px; }
+.ledger-highlight-modal .movement { padding:15px 4px; }
+@keyframes notification-pulse { 0%,100% { box-shadow:0 0 0 0 rgba(138,125,166,.15); } 50% { box-shadow:0 0 0 7px rgba(138,125,166,0); } }
+@media (prefers-reduced-motion: reduce) { .topbar-actions .icon-button[aria-label="Abrir notificações"], .floating-help-button { animation:none; } }
+@media (max-width:760px) { .highlight-modal.ledger-highlight-modal { width:calc(100vw - 24px); } .ledger-highlight-modal .ledger-highlight strong { font-size:34px; } }
