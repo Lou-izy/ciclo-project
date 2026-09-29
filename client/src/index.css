@@ -175,3 +175,39 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline:3px so
   .initial-notification { padding:19px 17px; }
   .notification-heading h2 { font-size:18px; }
 }
+
+/* Interações destacadas: drawer de notificações, histórico e extrato */
+.notification-heading-actions { display:flex; align-items:center; gap:8px; }
+.notification-heading-actions .icon-button { width:30px; height:30px; }
+.ledger-actions { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:12px; border-top:1px solid var(--line); }
+.ledger-actions .full-width-button { width:auto; padding-top:13px; }
+.download-pdf-button { display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border:1px solid #d1cbc5; border-radius:7px; background:#fffdfb; color:#332d3f; font-size:10px; font-weight:600; white-space:nowrap; }
+.download-pdf-button:hover { background:#f1edf6; }
+.drawer-backdrop, .highlight-backdrop { position:fixed; inset:0; background:rgba(25,21,30,.28); backdrop-filter:blur(3px); z-index:60; animation:fade-in .2s ease-out; }
+.notifications-drawer { position:fixed; z-index:61; top:0; right:0; height:100vh; width:min(420px, calc(100vw - 26px)); padding:28px 24px; background:var(--white); border-left:1px solid var(--line); box-shadow:-20px 0 50px rgba(32,24,38,.16); animation:drawer-in .28s var(--ease-out, cubic-bezier(.23,1,.32,1)); overflow:auto; }
+.drawer-header, .highlight-modal-header { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; }
+.drawer-header h2, .highlight-modal-header h2 { margin:8px 0 0; font:600 24px 'Space Grotesk'; letter-spacing:-.04em; }
+.notification-history { display:grid; gap:12px; margin-top:30px; }
+.notification-history-item { display:flex; gap:12px; padding:16px; border:1px solid var(--line); border-radius:12px; background:#faf8f5; }
+.notification-history-item strong { font:600 13px 'Space Grotesk'; }
+.notification-history-item p { margin:6px 0 7px; color:#5f5c59; font-size:11px; line-height:1.45; }
+.notification-history-item small { color:#8a8580; font:500 9px 'DM Mono'; }
+.notification-dot { width:9px; height:9px; flex:0 0 auto; margin-top:4px; border-radius:50%; background:#8a7da6; box-shadow:0 0 0 4px #e7e0f1; }
+.notification-dot.mint { background:#79ae90; box-shadow:0 0 0 4px #dceee2; }
+.drawer-action { display:inline-flex; align-items:center; gap:4px; padding:0; background:transparent; color:#514267; font-size:11px; font-weight:600; }
+.highlight-modal { position:fixed; z-index:61; top:50%; left:50%; width:min(780px, calc(100vw - 34px)); max-height:min(82vh, 760px); overflow:auto; transform:translate(-50%,-50%); padding:26px; border:1px solid var(--line); border-radius:18px; background:var(--white); box-shadow:0 28px 80px rgba(32,24,38,.24); animation:modal-in .25s var(--ease-out, cubic-bezier(.23,1,.32,1)); }
+.highlight-modal .history-card { margin:24px 0 0; box-shadow:none; border:1px solid var(--line); }
+.highlight-modal .ledger-highlight { margin-top:26px; }
+.highlight-modal .movement-list { margin-top:10px; }
+.floating-help-button { position:fixed; right:24px; bottom:24px; z-index:35; display:inline-flex; align-items:center; gap:7px; padding:10px 13px; border:1px solid #cfc5df; border-radius:999px; background:#f0ebfa; color:#514267; box-shadow:0 8px 20px rgba(44,35,28,.1); font-size:10px; font-weight:600; animation:fade-up .25s ease-out; }
+@keyframes fade-in { from { opacity:0; } to { opacity:1; } }
+@keyframes drawer-in { from { opacity:.5; transform:translateX(28px); } to { opacity:1; transform:translateX(0); } }
+@keyframes modal-in { from { opacity:0; transform:translate(-50%,-48%) scale(.98); } to { opacity:1; transform:translate(-50%,-50%) scale(1); } }
+@media (max-width:760px) {
+  .notifications-drawer { padding:22px 17px; }
+  .highlight-modal { padding:20px 17px; width:calc(100vw - 24px); max-height:86vh; }
+  .highlight-modal-header h2 { font-size:21px; }
+  .ledger-actions { align-items:flex-start; flex-direction:column; gap:7px; }
+  .download-pdf-button { width:100%; justify-content:center; }
+  .floating-help-button { right:14px; bottom:14px; }
+}
