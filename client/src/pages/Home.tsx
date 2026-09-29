@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   ArrowDownLeft,
   ArrowUpRight,
@@ -53,7 +53,7 @@ function GoogleMark() {
 }
 
 function LoginScreen({ onLogin }: { onLogin: () => void }) {
-  return <main className="login-shell"><div className="login-orbit orbit-one" /><div className="login-orbit orbit-two" /><div className="login-card"><Logo /><span className="eyebrow">ACESSO DO DEPOSITADOR</span><h1>Recicle. Acompanhe.<br /><em>Transforme.</em></h1><p>Uma conta para acompanhar suas coletas, materiais e saldo em tokens.</p><button className="google-button" onClick={onLogin}><GoogleMark /> Continuar com Google <ChevronRight size={17} /></button><div className="login-note"><ShieldCheck size={15} /> Login seguro e simplificado. Usamos apenas sua conta Google.</div></div><div className="login-art"><span className="art-label">ciclo / impacto real</span><div className="art-shape shape-arch" /><div className="art-shape shape-sun" /><div className="art-shape shape-wave" /><div className="art-shape shape-block" /><p>O que você separa hoje<br /><strong>volta para o ciclo.</strong></p></div></main>;
+  return <main className="login-shell"><div className="login-orbit orbit-one" /><div className="login-orbit orbit-two" /><div className="login-card"><Logo /><span className="eyebrow">ACESSO DO DEPOSITADOR</span><h1>Recicle. Acompanhe.<br /><em>Transforme.</em></h1><p>Uma conta para acompanhar suas coletas, materiais e saldo em tokens.</p><button className="google-button" onClick={onLogin}><GoogleMark /> Continuar com Google <ChevronRight size={17} /></button><div className="login-note"><ShieldCheck size={15} /> Login seguro e simplificado. Usamos apenas sua conta Google.</div></div><div className="login-art login-art-reference"><img src="/manus-storage/login-shapes_ba0f3fe8.png" alt="Composição abstrata com formas coloridas" /><div className="login-art-overlay" /><span className="art-label">ciclo / impacto real</span><p>O que você separa hoje<br /><strong>volta para o ciclo.</strong></p></div></main>;
 }
 
 function TopBar({ depTab, setDepTab, onToast, onLogout }: { depTab: DepTab; setDepTab: (tab: DepTab) => void; onToast: (toast: NonNullable<Toast>) => void; onLogout: () => void }) {
@@ -98,7 +98,12 @@ function TokenLedger({ onToast }: { onToast: (toast: NonNullable<Toast>) => void
 }
 
 function HistoryCard() {
-  return <section className="white-card history-card"><div className="section-heading"><div><span className="eyebrow">HISTÓRICO POR DATA</span><h2>Suas entregas</h2></div><span className="soft-badge">4 registros</span></div><div className="collection-list">{collections.map((item) => <div className="collection-item" key={item.date}><div className="date-block"><strong>{item.date.split(" ")[0]}</strong><span>{item.date.split(" ")[1]} {item.date.split(" ")[2]}</span></div><div className="collection-content"><strong>{item.material} <span>· {item.weight}</span></strong><span>{item.detail}</span></div><span className={`collection-status ${item.status === "Em análise" ? "review" : "verified-status"}`}>{item.status}</span></div>)}</div></section>;
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const timer = window.setTimeout(() => setLoading(false), 560);
+    return () => window.clearTimeout(timer);
+  }, []);
+  return <section className="white-card history-card"><div className="section-heading"><div><span className="eyebrow">HISTÓRICO POR DATA</span><h2>Suas entregas</h2></div><span className="soft-badge">4 registros</span></div>{loading ? <div className="history-skeleton" aria-label="Carregando histórico" role="status"><span /><span /><span /><small>Carregando entregas…</small></div> : <div className="collection-list">{collections.map((item) => <div className="collection-item" key={item.date}><div className="date-block"><strong>{item.date.split(" ")[0]}</strong><span>{item.date.split(" ")[1]} {item.date.split(" ")[2]}</span></div><div className="collection-content"><strong>{item.material} <span>· {item.weight}</span></strong><span>{item.detail}</span></div><span className={`collection-status ${item.status === "Em análise" ? "review" : "verified-status"}`}>{item.status}</span></div>)}</div>}</section>;
 }
 
 function BinMaterials() {
