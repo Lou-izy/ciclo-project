@@ -250,3 +250,21 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline:3px so
 .notification-location-detail { margin-top:12px; padding:12px; border-radius:8px; background:#f2eee7; }
 .notification-location-detail p { margin:7px 0 0; }
 @media (prefers-reduced-motion: reduce) { .topbar .top-nav button, .topbar .topbar-actions > button, .topbar .avatar, .notification-chevron { transition:none; } }
+
+/* Contador de avisos e extrato legível com rolagem */
+.notification-bell { position:relative; }
+.notification-count { position:absolute; top:-5px; right:-5px; min-width:18px; height:18px; padding:0 5px; display:grid; place-items:center; border:2px solid var(--white); border-radius:999px; background:#d47f68; color:#fff; font:700 10px/1 'DM Mono', monospace; box-shadow:0 3px 8px rgba(72,45,72,.2); animation:notification-count-in .25s ease-out; }
+.ledger-list-header { display:flex; justify-content:space-between; align-items:center; gap:12px; margin:22px 0 8px; color:var(--muted); font:700 10px/1.2 'DM Mono', monospace; letter-spacing:.08em; }
+.ledger-list-header b { color:#514267; font:600 10px 'DM Sans', sans-serif; letter-spacing:0; }
+.ledger-scroll { max-height:420px; overflow-y:auto; padding-right:8px; scrollbar-width:thin; scrollbar-color:#c9bdd5 transparent; }
+.token-movement { display:grid; grid-template-columns:72px minmax(0,1fr) auto; align-items:center; gap:14px; padding:15px 4px; border-bottom:1px solid var(--line); }
+.token-movement .date-block { align-self:start; }
+.token-movement-content { min-width:0; display:grid; gap:4px; }
+.token-movement-content strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:12px; }
+.token-movement-content span { color:var(--muted); font-size:11px; }
+.token-movement-content small { justify-self:start; padding:3px 7px; border-radius:999px; background:#e6f3eb; color:#47775d; font-size:9px; }
+.token-amount { white-space:nowrap; font-size:13px; }
+.ledger-highlight-modal .ledger-scroll { max-height:440px; }
+.pinned-note { display:block; margin-top:10px; color:var(--muted); font-size:10px; }
+@keyframes notification-count-in { from { opacity:0; transform:scale(.7); } to { opacity:1; transform:scale(1); } }
+@media (max-width:600px) { .token-movement { grid-template-columns:58px minmax(0,1fr); gap:10px; } .token-amount { grid-column:2; justify-self:start; } .ledger-scroll { max-height:390px; } }
