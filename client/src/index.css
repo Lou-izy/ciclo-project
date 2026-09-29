@@ -268,3 +268,14 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline:3px so
 .pinned-note { display:block; margin-top:10px; color:var(--muted); font-size:10px; }
 @keyframes notification-count-in { from { opacity:0; transform:scale(.7); } to { opacity:1; transform:scale(1); } }
 @media (max-width:600px) { .token-movement { grid-template-columns:58px minmax(0,1fr); gap:10px; } .token-amount { grid-column:2; justify-self:start; } .ledger-scroll { max-height:390px; } }
+
+/* Extrato resumido na página; detalhes completos somente na visualização expandida. */
+.token-ledger-summary .ledger-highlight { margin-bottom:18px; }
+.ledger-summary-note { display:flex; align-items:flex-start; gap:11px; padding:15px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.summary-icon { width:30px; height:30px; flex:0 0 auto; display:grid; place-items:center; border-radius:9px; background:var(--mint); color:#47775d; }
+.ledger-summary-note strong { display:block; color:var(--ink); font:600 13px 'Space Grotesk'; }
+.ledger-summary-note p { margin:4px 0 0; color:var(--muted); font-size:11px; line-height:1.4; }
+.ledger-open-button { padding-top:15px; font-weight:600; }
+.ledger-highlight-modal .ledger-list-header { margin-top:0; }
+.ledger-highlight-modal .ledger-scroll { max-height:360px; }
+@media (max-width:600px) { .ledger-summary-note p { max-width:240px; } .ledger-highlight-modal .ledger-scroll { max-height:330px; } }
