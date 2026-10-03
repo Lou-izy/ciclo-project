@@ -110,14 +110,81 @@ function LocationsCard() {
 
 function LedgerContent({ onToast, onExpand }: { onToast: (toast: NonNullable<Toast>) => void; onExpand?: () => void }) {
   const downloadPdf = () => {
-    const text = ["CICLO — EXTRATO DE TOKENS", "Marina Costa · Identificador #48237", "Saldo atual: 2.480 tk", ...movements.slice(0, 3).map((m) => `${m.date} ${m.time} — ${m.title} — ${m.amount} tk`)].join("\n");
-    const escaped = text.replace(/\\/g, "\\\\").replace(/\(/g, "\\(").replace(/\)/g, "\\)").replace(/\n/g, ") Tj 0 -16 Td ();");
-    const stream = `BT /F1 11 Tf 48 780 Td (${escaped}) Tj ET`;
-    const objects = [`1 0 obj<< /Type /Catalog /Pages 2 0 R >>endobj`, `2 0 obj<< /Type /Pages /Kids [3 0 R] /Count 1 >>endobj`, `3 0 obj<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>endobj`, `4 0 obj<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>endobj`, `5 0 obj<< /Length ${stream.length} >>stream\n${stream}\nendstream endobj`];
-    let pdf = "%PDF-1.4\n", offsets = [0];
-    objects.forEach((obj) => { offsets.push(pdf.length); pdf += obj + "\n"; });
-    const xref = pdf.length; pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`; offsets.slice(1).forEach((o) => { pdf += `${String(o).padStart(10, "0")} 00000 n \n`; }); pdf += `trailer<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;
-    const url = URL.createObjectURL(new Blob([pdf], { type: "application/pdf" })); const a = document.createElement("a"); a.href = url; a.download = "extrato-ciclo-tokens.pdf"; a.click(); URL.revokeObjectURL(url); onToast({ title: "PDF baixado", detail: "Seu extrato de tokens foi salvo no dispositivo." });
+    const normalize = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\x20-\x7E]/g, "");
+    const esc = (value: string) => normalize(value).replace(/\\/g, "\\\\").replace(/\(/g, "\\(").replace(/\)/g, "\\)");
+    const today = new Date();
+    const months = ["janeiro", "fevereiro", "marco", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+    const emittedAt = today.toLocaleString("pt-BR", { dateStyle: "long", timeStyle: "short" });
+    const filename = `extrato_tokens_${months[today.getMonth()]}_${today.getFullYear()}.pdf`;
+    const rows = movements;
+    const rowsPerPage = 8;
+    const pageCount = Math.max(1, Math.ceil(rows.length / rowsPerPage));
+    const pages: string[] = [];
+    const text = (value: string, x: number, y: number, size = 10, font = "F1", color = "0.16 0.14 0.18") => `${color} rg BT /${font} ${size} Tf ${x} ${y} Td (${esc(value)}) Tj ET`;
+    const line = (x1: number, y1: number, x2: number, y2: number, color = "0.87 0.84 0.88") => `${color} RG 0.7 w ${x1} ${y1} m ${x2} ${y2} l S`;
+    for (let pageIndex = 0; pageIndex < pageCount; pageIndex++) {
+      const pageRows = rows.slice(pageIndex * rowsPerPage, (pageIndex + 1) * rowsPerPage);
+      const commands: string[] = ["q", "0.98 0.97 0.99 rg 0 0 595 842 re f", "Q"];
+      commands.push(text("CICLO", 54, 786, 16, "F2", "0.16 0.14 0.18"));
+      commands.push(text("RASTREIO DE RECICLAGEM", 54, 770, 8, "F1", "0.42 0.39 0.45"));
+      commands.push(text("EXTRATO DE TOKENS", 54, 730, 24, "F2"));
+      commands.push(text(`Emitido em ${emittedAt}`, 54, 708, 9, "F1", "0.42 0.39 0.45"));
+      commands.push(text("Marina Costa · ID #48237", 380, 708, 9, "F1", "0.42 0.39 0.45"));
+      commands.push("0.86 0.80 0.92 rg 54 642 487 44 re f");
+      commands.push(text("SALDO ATUAL", 70, 668, 8, "F2", "0.32 0.28 0.39"));
+      commands.push(text("2.480 tk", 70, 650, 20, "F2", "0.16 0.14 0.18"));
+      commands.push(text("+ 402 tokens no mes corrente", 390, 653, 9, "F1", "0.32 0.28 0.39"));
+      commands.push(text("HISTORICO DE LANCAMENTOS", 54, 612, 9, "F2", "0.32 0.28 0.39"));
+      commands.push(line(54, 600, 541, 600, "0.72 0.68 0.76"));
+      commands.push(text("DATA E HORA", 54, 584, 8, "F2", "0.42 0.39 0.45"));
+      commands.push(text("DESCRICAO / DETALHES", 165, 584, 8, "F2", "0.42 0.39 0.45"));
+      commands.push(text("STATUS", 410, 584, 8, "F2", "0.42 0.39 0.45"));
+      commands.push(text("CREDITO", 490, 584, 8, "F2", "0.42 0.39 0.45"));
+      let y = 558;
+      pageRows.forEach((movement) => {
+        commands.push(text(`${movement.date}, ${movement.time}`, 54, y, 9, "F2"));
+        commands.push(text(movement.title, 165, y, 9, "F2"));
+        commands.push(text(`${movement.detail}`, 165, y - 14, 8, "F1", "0.42 0.39 0.45"));
+        commands.push(text(movement.status, 410, y, 8, "F1", "0.25 0.45 0.34"));
+        commands.push(text(`${movement.amount} tk`, 490, y, 9, "F2", "0.25 0.45 0.34"));
+        commands.push(line(54, y - 28, 541, y - 28));
+        y -= 48;
+      });
+      commands.push(text("Obrigado por transformar residuos em recursos!", 54, 62, 9, "F1", "0.42 0.39 0.45"));
+      commands.push(text(`Pagina ${pageIndex + 1} de ${pageCount}`, 470, 62, 8, "F1", "0.42 0.39 0.45"));
+      pages.push(commands.join("\n"));
+    }
+    const objects: string[] = ["1 0 obj<< /Type /Catalog /Pages 2 0 R >>endobj"];
+    const pageRefs: string[] = [];
+    const contentRefs: string[] = [];
+    pages.forEach((_, i) => { pageRefs.push(`${3 + i * 2} 0 R`); contentRefs.push(`${4 + i * 2} 0 R`); });
+    objects.push(`2 0 obj<< /Type /Pages /Kids [${pageRefs.join(" ")}] /Count ${pages.length} >>endobj`);
+    pages.forEach((stream, i) => {
+      const pageObj = 3 + i * 2;
+      const contentObj = 4 + i * 2;
+      objects.push(`${pageObj} 0 obj<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 ${3 + pages.length * 2} 0 R /F2 ${4 + pages.length * 2} 0 R >> >> /Contents ${contentObj} 0 R >>endobj`);
+      objects.push(`${contentObj} 0 obj<< /Length ${stream.length} >>stream\n${stream}\nendstream endobj`);
+    });
+    const regularFont = 3 + pages.length * 2;
+    const boldFont = regularFont + 1;
+    objects.push(`${regularFont} 0 obj<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>endobj`);
+    objects.push(`${boldFont} 0 obj<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>endobj`);
+    let pdf = "%PDF-1.4\n";
+    const offsets = [0];
+    objects.forEach((object) => { offsets.push(pdf.length); pdf += object + "\n"; });
+    const xref = pdf.length;
+    pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+    offsets.slice(1).forEach((offset) => { pdf += `${String(offset).padStart(10, "0")} 00000 n \n`; });
+    pdf += `trailer<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;
+    const url = URL.createObjectURL(new Blob([pdf], { type: "application/pdf" }));
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = filename;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    onToast({ title: "PDF baixado", detail: `Extrato salvo como ${filename}.` });
   };
   return <><div className="ledger-highlight"><span>Saldo atual</span><strong>2.480 <small>tk</small></strong><em>+ 402 este mês</em></div><div className="ledger-list-header"><span>LANÇAMENTOS POR DATA</span><b>3 lançamentos</b></div><div className="movement-list ledger-scroll">{movements.slice(0, 3).map((movement) => <div className="token-movement" key={movement.date + movement.time}><div className="date-block"><strong>{movement.date.split(" ")[0]}</strong><span>{movement.date.split(" ").slice(1).join(" ")}</span></div><div className="token-movement-content"><strong>{movement.title}</strong><span>{movement.detail} · {movement.time}</span><small>{movement.status}</small></div><b className="positive token-amount">{movement.amount} tk</b></div>)}</div><div className="ledger-actions"><button className="full-width-button" onClick={() => onExpand?.()}>Ver extrato completo <ChevronRight size={15} /></button><button className="download-pdf-button" onClick={downloadPdf}><Download size={15} /> Baixar PDF</button></div></>;
 }

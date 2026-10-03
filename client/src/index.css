@@ -279,3 +279,14 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline:3px so
 .ledger-highlight-modal .ledger-list-header { margin-top:0; }
 .ledger-highlight-modal .ledger-scroll { max-height:360px; }
 @media (max-width:600px) { .ledger-summary-note p { max-width:240px; } .ledger-highlight-modal .ledger-scroll { max-height:330px; } }
+
+/* Refinos do modal do extrato: respiro superior, rolagem e alinhamento interno. */
+.highlight-modal { box-sizing:border-box; padding:38px 30px 30px; scrollbar-gutter:stable; }
+.highlight-modal::before, .highlight-modal::after { content:none !important; display:none !important; }
+.highlight-modal .ledger-highlight { margin:26px 0 0; }
+.ledger-highlight-modal .ledger-highlight { margin-left:0; margin-right:0; }
+.ledger-highlight-modal .ledger-scroll { padding-right:18px; margin-right:0; scrollbar-gutter:stable; }
+.ledger-highlight-modal .ledger-actions { margin:16px 0 0; padding:14px 0 0; border-top:1px solid var(--line); }
+.ledger-highlight-modal .ledger-actions .full-width-button { padding-top:0; }
+.ledger-highlight-modal .ledger-list-header { padding:0; }
+@media (max-width:760px) { .highlight-modal { padding:30px 20px 24px; } .ledger-highlight-modal .ledger-scroll { padding-right:14px; } }
