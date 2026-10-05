@@ -290,3 +290,25 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline:3px so
 .ledger-highlight-modal .ledger-actions .full-width-button { padding-top:0; }
 .ledger-highlight-modal .ledger-list-header { padding:0; }
 @media (max-width:760px) { .highlight-modal { padding:30px 20px 24px; } .ledger-highlight-modal .ledger-scroll { padding-right:14px; } }
+/* Ledger detail typography: keeps visual-editor adjustments valid and responsive. */
+.ledger-detail-highlight { padding-top:20px; }
+.ledger-detail-label { font-size:15px; color:#756c8c; }
+.ledger-detail-value { font-size:45px; }
+.ledger-detail-unit { font-size:15px; }
+.ledger-detail-month { font-size:12px; color:#756c8c; }
+.ledger-detail-header { padding-top:15px; }
+.ledger-detail-header > span { font-size:12px; }
+.ledger-detail-count { padding-top:15px; font-size:12px; }
+.ledger-detail-row { padding-top:20px; }
+.ledger-detail-date strong { font-size:15px; }
+.ledger-detail-date span, .ledger-detail-meta { font-size:12px; }
+.ledger-detail-title { font-size:15px; }
+.ledger-detail-status { font-size:12px; }
+.ledger-detail-amount { font-size:15px; }
+.ledger-detail-actions { padding-top:15px; }
+.ledger-detail-actions button { font-size:12px; }
+@media (max-width:600px) {
+  .ledger-detail-value { font-size:38px; }
+  .ledger-detail-row { padding-top:16px; }
+  .ledger-detail-title, .ledger-detail-amount { font-size:13px; }
+}
