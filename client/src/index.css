@@ -14,7 +14,10 @@
 @media (max-width:760px) { .topbar { height:auto; }.topbar-inner { height:auto; min-height:70px; padding:12px 16px; flex-wrap:wrap; gap:12px; }.top-nav { order:3; width:100%; margin:0; border-top:1px solid var(--line); padding-top:8px; }.top-nav button { flex:1; justify-content:center; }.account-status { display:none; }.app-layout { display:block; }.side-rail { display:none; }.main-content { padding:28px 14px 60px; }.page-header { margin-bottom:23px; }.page-header p { font-size:12px; }.token-hero-grid { grid-template-columns:1fr; }.token-card { min-height:210px; }.active-status-card { padding:20px 17px; }.dashboard-grid { grid-template-columns:1fr; }.instructions-card,.materials-card,.locations-card,.token-ledger,.history-card { padding:20px 17px; }.stage strong { font-size:9px; white-space:normal; }.stage span { font-size:8px; }.collection-item { grid-template-columns:60px 1fr; gap:9px; }.collection-status { grid-column:2; justify-self:start; }.form-grid { grid-template-columns:1fr; gap:12px; }.profile-grid { grid-template-columns:1fr; }.profile-card { padding:19px 17px; }.toast { left:14px; right:14px; bottom:14px; max-width:none; }.login-card { width:min(420px,calc(100% - 36px)); }.login-card .brand-lockup { margin-bottom:70px; }.login-card h1 { font-size:46px; } }
 
 /* Dashboard reorganizado: identificador visível, blocos expansíveis e guia de lixeiras */
+.google-login-wrap { display:flex; justify-content:center; width:100%; min-height:40px; }
+.google-login-wrap.is-busy { opacity:.6; pointer-events:none; }
 .dashboard-stack { display:grid; gap:15px; }
+.dashboard-top-shell .token-hero-grid { grid-template-columns:minmax(260px,1fr); }
 .token-card { position:relative; overflow:hidden; }
 .identifier-chip { display:grid; grid-template-columns:1fr auto; gap:3px 12px; align-items:end; margin-top:2px; padding:10px 12px; border:1px solid #4a4a4a; border-radius:10px; background:#222; }
 .identifier-chip span { grid-column:1; color:#aaa; font:500 9px 'DM Mono'; letter-spacing:.08em; }
@@ -44,8 +47,8 @@
 .bin-material span { margin-top:3px; color:#777; font-size:10px; }
 .bin-material > svg { margin-left:auto; color:#777; }
 .bin-swatch { width:12px; height:30px; border-radius:5px; background:#80bfa5; flex:0 0 auto; }
-.bin-pet .bin-swatch { background:#efad86; }
-.bin-pla .bin-swatch { background:#bdaee3; }
+.bin-pap .bin-swatch { background:#bdaee3; }
+.bin-pls .bin-swatch { background:#efad86; }
 @keyframes expand-in { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
 @media (max-width:760px) {
   .identifier-chip { margin-top:4px; }
