@@ -221,9 +221,12 @@ export default defineConfig({
     emptyOutDir: true,
   },
   server: {
-    port: 3000,
+    port: 5173,
     strictPort: false, // Will find next available port if 3000 is busy
     host: true,
+    proxy: {
+      "/api": process.env.VITE_API_PROXY_TARGET || "http://localhost:3000",
+    },
     allowedHosts: [
       ".manuspre.computer",
       ".manus.computer",

@@ -5,8 +5,13 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite --host",
-    "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
-    "start": "NODE_ENV=production node dist/index.js",
+    "dev:api": "pnpm --filter ciclo-project-backend dev",
+    "build:api": "pnpm --filter ciclo-project-backend build",
+    "start:api": "pnpm --filter ciclo-project-backend start",
+    "test:api": "pnpm --filter ciclo-project-backend test",
+    "check:api": "pnpm --filter ciclo-project-backend lint",
+    "build": "vite build && esbuild web-server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+    "start": "node dist/index.js",
     "preview": "vite preview --host",
     "check": "tsc --noEmit",
     "format": "prettier --write ."
@@ -39,6 +44,7 @@
     "@radix-ui/react-toggle": "^1.1.10",
     "@radix-ui/react-toggle-group": "^1.1.11",
     "@radix-ui/react-tooltip": "^1.2.8",
+    "@react-oauth/google": "^0.13.5",
     "axios": "^1.12.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
